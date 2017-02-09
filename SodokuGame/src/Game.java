@@ -1,0 +1,38 @@
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.Scanner;
+
+
+
+public class Game {
+
+	private Board b;
+	private Player p;
+
+	
+	public Game(Board b, Player p) {
+		this.b = b;
+		this.p = p;
+		String file = p.getFileName();
+		b.fillBoard(file);		
+	}
+	
+	public void play() {
+		while(b.isFull() == false) {
+			b.display();
+			Choice c = p.getChoice();
+			while(b.isOriginal(c) == true) {
+				System.out.println("You can't change that square it already has a value!");
+				c = p.getChoice();
+			}
+			b.setSquare(c);
+		}
+		b.display();
+		
+		if(b.check() == true){
+			p.winMsg();
+		} else {
+			p.loseMsg();
+		}
+	}
+}
